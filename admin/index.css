@@ -1,0 +1,50 @@
+*{
+
+}
+
+.col-xs-12.col-sm-4.col-md-3.col-lg-2.card {
+    border: 1px solid #a9a2a245;
+    margin-right: 30px;
+    margin-bottom: 30px;
+    border-radius: 20px
+}
+
+.col-xs-12.col-sm-4.col-md-3.col-lg-2.card:hover{
+    border: 1px solid blue;
+   
+}
+
+.leftMenu i {
+    margin-right: 10px;
+}
+
+.leftMenu {
+    border: 1px solid #a9a2a245;
+    border-radius: 10px;
+}
+
+a {
+    color: black;
+    font-size: 16px;
+    text-decoration: none;
+    padding-top: 15px;
+    padding-left: 10px;
+    padding-bottom: 15px;
+}
+
+.navbar-right span.glyphicon {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    top: 3px;
+    padding-right: 20px;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: black;
+    font-size: 16px;
+}
+
+.application{
+    margin-bottom: 100px
+}
