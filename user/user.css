@@ -1,0 +1,113 @@
+*{
+}
+
+p.textThongBao {
+    color: red;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.ngayThue {
+    padding-bottom: 20px;
+}
+
+input[type="text"] {
+}
+
+form {padding-bottom: 20px;}
+
+div#rightTienDV {
+    padding: 40px;
+}
+
+div#leftTienDV {padding: 40px;}
+
+div#thongBao {
+    margin-left: 0px;
+    height: 500px;
+}
+
+
+.thanhvien {
+    margin: 50px;
+}
+
+div#viewUser {}
+
+p.tongTien {
+    text-align: center;
+    font-size: 28px;
+}
+
+p.titleDichVu {
+    font-size: 20px;
+    font-weight: 600;
+}
+p.titleThongBao {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+p.tien {
+    font-size: 20px;
+}
+
+input[type="tien"] {
+    margin-left: 20px;
+    font-size: 15px;
+}
+
+div#tienDichVu {
+    border: 1px solid;
+    border-radius: 5px;
+    height: 500px;
+}
+
+div#tienDichVu {
+}
+div#thongBao {
+    border: 1px solid;
+    border-radius: 5px;
+}
+
+
+p.tien {
+    margin: 10px !important;
+}
+
+p#tien {
+    font-size: 30px;
+    text-align: center;
+    font-weight: 600;
+}
+
+p#nameRoom {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.listUser {
+    font-size: 20px;
+}
+
+p#listUserTitle {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.formListUser {
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+a{
+    color: #333333 !important;
+    font-weight: 500;
+}
+
+a:hover{
+    opacity: 0.5;
+    text-decoration: none !important;
+    
+}
