@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 </head>
+    
 <body>
     
     <!-- Modal -->
@@ -51,7 +52,6 @@
                                 <option value="">Không có gát</option>
                             </select>
                             
-
                         </div>
                     
                         <button type="submit" class="btn btn-primary">Thêm</button>

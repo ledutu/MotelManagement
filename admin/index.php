@@ -81,20 +81,48 @@
                                 <div class="row">
                                     
                                 <?php
-                                    for($i = 1; $i<31; $i++)
+                                    require_once("../conn.php");
+                                    $sql = "SELECT * FROM motels";
+                                    $result = $conn->query($sql);
+
+                                    if($result->num_rows > 0)
                                     {
+                                        while($row = $result->fetch_assoc())
+                                        {
+                                            
                                 ?>
+
+                                    <!-- da thue -->
                                     <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2 card">
-                                        <a href="detail.php" style="text-decoration: none">
-                                            <div class="card text-center" style="padding: 40px">
+                                        <a href="roomUpdate.php?id=<?= $row["motelId"] ?>" style="text-decoration: none">
+                                            <div class="card text-center" style="padding: 35px">
                                                 <img src="https://image.flaticon.com/icons/png/512/18/18625.png" alt="" width="50px">
-                                                <h4 class="text" style="color: black">A<?= $i ?></h4>
-                                                <p class="text-center">0303233423</p>
+                                                <h4 class="text" style="color: black"><?= $row["name"] ?></h4>
+                                                <?php
+                                                    if($row["status"])
+                                                    {
+                                                ?>
+                                                    <p class="text-center" style="color: green"><i class="fa fa-check"></i> Đã thuê</p>
+                                                <?php
+                                                    }
+                                                    else
+                                                    {
+                                                ?>
+                                                    <p class="text-center" style="color: red"><i class="fa fa-times"></i> Còn trống</p>
+
+                                                <?php
+                                                    }
+
+                                                ?>
+
                                             </div>
                                         </a>
                                     </div>
 
                                 <?php
+                                                    
+                                        }
+
                                     }
                                 ?>
                                     
@@ -110,7 +138,7 @@
         </div>  <!-- End Information -->
 
         <?php 
-            require_once("roomAdd.php")
+            require_once("roomAdd.php");
         ?>
 
         
