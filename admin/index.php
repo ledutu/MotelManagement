@@ -62,9 +62,9 @@
                         <h3><i class="fa fa-home fa-lg"></i> Home</h3> 
 
                         <div class="leftMenu">
-                            <a href="#" style="display: block" ><i class="fa fa-check fa-lg"></i>Phòng trọ đang thuê</a> 
-                            <a href="#" style="display: block" ><i class="fa fa-times fa-lg"></i> Phòng trọ chưa thuê</a> 
-                            <a href="#" style="display: block" ><i class="fa fa-users fa-lg"></i>Thông tin thành viên</a> 
+                            <a href="index.php?status=1" style="display: block" ><i class="fa fa-check fa-lg"></i>Phòng trọ đang thuê</a> 
+                            <a href="index.php?status=0" style="display: block" ><i class="fa fa-times fa-lg"></i> Phòng trọ chưa thuê</a> 
+                            <a href="index.php?userInfo" style="display: block" ><i class="fa fa-users fa-lg"></i>Thông tin thành viên</a> 
                             <hr>
                             <a href="#" style="display: block" data-toggle="modal" data-target="#roomAdding"><i class="fa fa-plus fa-lg"></i>Thêm phòng</a> 
                         
@@ -73,7 +73,88 @@
 
                     <!-- Content -->
                     <div class="col-xs-10 col-sm-10 col-md-10">
-                        <h3>Content</h3>
+                        <?php
+                            require_once("../conn.php");
+
+                            if(isset($_GET["userInfo"]))
+                            {
+                        ?>
+                            <h3>Thông tin thành viên</h3>
+
+                            
+                            <table class="table table-hover">
+                                
+                                <!-- <form action="" method="POST" role="form">
+                                    <div class="form-group">
+                                        <label for="">label</label>
+                                        <input type="text" class="form-control" id="" placeholder="Input field">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </form> -->
+                                
+                                <thead>
+                                    <tr>
+                                        <th>Hình ảnh</th>
+                                        <th>Tên đầy đủ</th>
+                                        <th>username</th>
+                                        <th>password</th>
+                                        <th>SĐT</th>
+                                        <th>CMND</th>
+                                        <th>Ngày sinh</th>
+                                        <th>Phòng</th>
+                                        <th>Lựa chọn</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <?php
+                                        $userSql = "SELECT * FROM users, motels
+                                        WHERE users.motelId = motels.motelId
+                                        ORDER BY users.motelId, users.userId ASC";
+                                        $results = $conn->query($userSql);
+
+                                        if($results->num_rows > 0)
+                                        {
+                                            while($user = $results->fetch_assoc())
+                                            {
+
+                                    ?>
+                                    <tr>
+                                        <td>
+                                            <img src="" alt="">
+                                        </td>
+                                        <td><?= $user["fullName"] ?></td>
+                                        <td><?= $user["username"] ?></td>
+                                        <td><?= $user["password"] ?></td>
+                                        <td><?= $user["numberPhone"] ?></td>
+                                        <td><?= $user["CMND"] ?></td>
+                                        <td><?= $user["dayOfBirth"] ?></td>
+                                        <td><?= $user['name'] ?></td>
+                                        <th>
+                                            <a href=""><button class="btn btn-primary">Edit</button></a>
+                                            <a href=""><button class="btn btn-danger">Delete</button></a>
+                                        </th>
+                                        
+                                    </tr>
+                                    
+
+                                    <?php
+                                                                                    
+                                            }
+                                        }
+                                    ?>
+
+                                </tbody>
+                            </table>
+                            
+
+                        <?php
+                            }
+                            else
+                            {
+                        ?>
+
+                        <h3>Thông tin nhà trọ</h3>
 
                         <div class="content">
 
@@ -81,8 +162,14 @@
                                 <div class="row">
                                     
                                 <?php
-                                    require_once("../conn.php");
                                     $sql = "SELECT * FROM motels";
+
+                                    if(isset($_GET['status']))
+                                    {
+                                        $status = $_GET['status'];
+                                        $sql = $sql . " WHERE status = $status";
+                                    }
+
                                     $result = $conn->query($sql);
 
                                     if($result->num_rows > 0)
@@ -93,10 +180,10 @@
                                 ?>
 
                                     <!-- da thue -->
-                                    <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2 card">
+                                    <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2 card" style="background-color: <?php if($row["cast"]) echo '#d9d9f3' ?>">
                                         <a href="roomUpdate.php?id=<?= $row["motelId"] ?>" style="text-decoration: none">
                                             <div class="card text-center" style="padding: 35px">
-                                                <img src="https://image.flaticon.com/icons/png/512/18/18625.png" alt="" width="50px">
+                                                <img src="https://image.flaticon.com/icons/png/512/18/18625.png"  alt="" width="50px">
                                                 <h4 class="text" style="color: black"><?= $row["name"] ?></h4>
                                                 <?php
                                                     if($row["status"])
@@ -130,6 +217,11 @@
                             </div>  <!-- End container -->
 
                         </div>  <!-- End Content -->
+
+                        <?php
+                            }
+                        ?>
+
                     </div>
                                                 
 

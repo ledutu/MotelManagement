@@ -23,34 +23,25 @@
                 <div class="modal-body">
                     
                     
-                    <form action="" method="POST" role="form">
+                    <form action="add.php" method="POST" role="form">
                     
                         <div class="form-group">
                             <label for="">Tên phòng</label>
-                            <input type="roomName" class="form-control" id="roomName" placeholder="Nhập tên phòng">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Nhập tên phòng" required>
 
                             <label for="">Giá tiền</label>
-                            <select name="cost" id="inputCost" class="form-control">
-                                <option value="">3.000.000 VNĐ</option>
-                                <option value="">3.500.000 VNĐ</option>
-                                <option value="">4.000.000 VNĐ</option>
-                                <option value="">4.500.000 VNĐ</option>
-                            </select>
+                            <input type="number" class="form-control" id="cost" name="cost" placeholder="Nhập giá tiền" required>
                             
                             <label for="">Diện tích</label>
-                            <select name="area" id="inputArea" class="form-control">
-                                <option value="">20m2</option>
-                                <option value="">25m2</option>
-                                <option value="">30m2</option>
-                            </select>
+                            <input type="number" class="form-control" id="area" name="area" placeholder="Nhập diện tích" required>
                             
-                            
-
                             <label for="">Gát</label>
                             <select name="gat" id="inputGat" class="form-control">
-                                <option value="">Có gát</option>
-                                <option value="">Không có gát</option>
+                                <option value="1">Có gát</option>
+                                <option value="0">Không có gát</option>
                             </select>
+
+                            
                             
                         </div>
                     

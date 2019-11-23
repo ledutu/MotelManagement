@@ -17,7 +17,7 @@
 </head>
 
 <style>
-    .detail input{
+    .detail input, select{
         margin-bottom: 10px
     };
 
@@ -29,7 +29,7 @@
         <div class="container">
             <div class="row">
 
-                <form action="" method="POST" role="form">
+                <form action="update.php" method="POST" role="form" enctype="multipart/form-data">
 
                         
                     
@@ -38,16 +38,33 @@
                         <?php
                             require_once("../conn.php");
 
+                            $motelId = "";
+
+                            $size = "SELECT * FROM users";
+
+                            $resultSize = $conn->query($size);
+
+                            $count = $resultSize->num_rows;
+
                             if(isset($_GET["id"]))
                             {
                                 $motelId = $_GET["id"];
-                                $sql = "SELECT * FROM motels WHERE motelId = '$motelId' ";
+                                $sql = "SELECT * FROM motels WHERE motelId = '$motelId'" ;
+                                $users = "SELECT * FROM motels, users WHERE motelId = '$motelId'
+
+                                AND (motels.memberId1 = users.userId 
+                                OR motels.memberId2 = users.userId
+                                OR motels.memberId3 = users.userId
+                                OR motels.memberId4 = users.userId)";
+
                                 $result = $conn->query($sql);
+                                $usersResult = $conn->query($users);
                                 
                                 if($result->num_rows > 0)
                                 {
                                     while($row = $result->fetch_assoc())
                                     {
+                                        
 
                            
                             
@@ -59,68 +76,112 @@
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 
                             <label for="">Tiền phòng</label>
-                            <input type="roomCostUpdate" class="form-control" id="roomCostUpdate" value="<?= $row["roomCost"] ?>" placeholder="Tiền phòng">
+                            <input type="number" class="form-control" id="roomCostUpdate" name="roomCostUpdate" value="<?= $row["roomCost"] ?>" placeholder="Tiền phòng" required>
 
                             <label for="">Tiền điện, nước</label>
-                            <input type="waterCostUpdate" class="form-control" id="waterCostUpdate" value="<?= $row["waterCost"] ?>" placeholder="Tiền phòng">
+                            <input type="number" class="form-control" id="waterCostUpdate" name="waterCostUpdate" value="<?= $row["waterCost"] ?>" placeholder="Tiền điện, nước">
 
                             <label for="">Tiền dịch vụ</label>
-                            <input type="serviceCostUpdate" class="form-control" id="waterCostUpdate" value="<?= $row["serviceCost"] ?>" placeholder="Tiền dịch vụ">
+                            <input type="number" class="form-control" id="serviceCostUpdate" name="serviceCostUpdate" value="<?= $row["serviceCost"] ?>" placeholder="Tiền dịch vụ">
 
                             <label for="">Diện tích</label>
-                            <input type="areaUpdate" class="form-control" id="areaUpdate" value="<?= $row["area"].'m2' ?>" placeholder="Diện tích">
+                            <input type="number" class="form-control" id="areaUpdate" name="areaUpdate" value="<?= $row["area"] ?>" placeholder="Diện tích">
 
                             <label for="">Gát</label>
                             <select name="gat" id="inputGat" class="form-control">
-                                <option value="yes" <?php if ($row["gat"]) echo "selected" ?>>Có gát</option>
-                                <option value="no" <?php if (!$row["gat"]) echo "selected" ?>>Không có gát</option>
+                                <option value="1" <?php if ($row["gat"]) echo "selected" ?>>Có gát</option>
+                                <option value="0" <?php if (!$row["gat"]) echo "selected" ?>>Không có gát</option>
                             </select>
+
+                            <label for="">Trạng thái</label>
+                            <div class="row">
+                                
+                                <div class="<?php if($row["status"]) echo 'col-xs-6'; else echo 'col-xs-12';  ?>">
+                                    <select name="thue" id="inputThue" class="form-control">
+                                        <option value="1" <?php if ($row["status"]) echo "selected" ?> style="color: green">Đã thuê</option>
+                                        <option value="0" <?php if (!$row["status"]) echo "selected" ?> style="color: red">Còn trống</option>
+                                    </select>
+                                </div>
+                                
+                            
+
+                            <?php
+                                if($row["status"])
+                                {
+                            ?>
+                            
+                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                    <select name="cast" id="inputCast" class="form-control">
+                                        <option value="1" <?php if ($row["cast"]) echo "selected" ?> style="color: green">Đã đóng tiền</option>
+                                        <option value="0" <?php if (!$row["cast"]) echo "selected" ?> style="color: red">Chưa đóng tiền</option>
+                                    </select>
+                                </div>
+                                
+                            <?php       
+                                }
+                            ?>
+                            </div>
                         </div>
 
                         
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                             <div class="row">
                                 
+                                <?php
+                                    if($usersResult->num_rows > 0)
+                                    {
+                                        $i = 0;
+                                        while($user = $usersResult->fetch_assoc())
+                                        {
+                                     
+                                ?>
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="margin-bottom: 25px">
-                                    <label for="">Thành viên 1</label>
-                                    <input type="memberName1" class="form-control" id="memberName1" placeholder="Nhập tên">
-                                    <input type="memberCMND1" class="form-control" id="memberCMND1" placeholder="Nhập CMND">
-                                    <input type="memberPhoneNumber1" class="form-control" id="memberPhoneNumber1" placeholder="Nhập số điện thoại">
 
+                                    <label for="">Thành viên <?= ++$i ?></label>
+                                    <input type="text" class="form-control" id="memberName<?= ++$i ?>" name="memberName<?= ++$i ?>" value = "<?= $user["fullName"] ?>" placeholder="Nhập tên" required>
+                                    <input type="text" class="form-control" id="memberCMND<?= ++$i ?>" name="memberCMND<?= ++$i ?>" value = "<?= $user["CMND"] ?>" placeholder="Nhập CMND" required>
+                                    <input type="text" class="form-control" id="memberPhoneNumber<?= ++$i ?>" name="memberPhoneNumber<?= ++$i ?>" value="<?= $user["numberPhone"] ?>" placeholder="Nhập số điện thoại" required>
                                     
                                 </div>
+                                <?php
+                                        }
+                                    }
+                                    else
+                                    {
+                                        for($i = 1; $i<5; $i++)
+                                        {
 
-                                
-                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="margin-bottom: 25px">
-                                    <label for="">Thành viên 2</label>
-                                    <input type="memberName2" class="form-control" id="memberName2" placeholder="Nhập tên">
-                                    <input type="memberCMND2" class="form-control" id="memberCMND2" placeholder="Nhập CMND">
-                                    <input type="memberPhoneNumber2" class="form-control" id="memberPhoneNumber2" placeholder="Nhập số điện thoại">
-                                </div>
-                                
+                                ?>
 
-                                
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="margin-bottom: 25px">
-                                    <label for="">Thành viên 4</label>
-                                    <input type="memberName4" class="form-control" id="memberName4" placeholder="Nhập tên">
-                                    <input type="memberCMND4" class="form-control" id="memberCMND4" placeholder="Nhập CMND">
-                                    <input type="memberPhoneNumber4" class="form-control" id="memberPhoneNumber4" placeholder="Nhập số điện thoại">
+
+                                    <label for="">Thành viên <?= $i ?></label>
+                                    <input type="text" class="form-control" id="memberName<?= $i ?>" name="memberName<?= $i ?>" value = "" placeholder="Nhập tên" required>
+                                    <input type="text" class="form-control" id="memberCMND<?= $i ?>" name="memberCMND<?= $i ?>" value = "" placeholder="Nhập CMND" required>
+                                    <input type="text" class="form-control" id="memberPhoneNumber<?= $i ?>" name="memberPhoneNumber<?= $i ?>" value="" placeholder="Nhập số điện thoại" required>
+
                                 </div>
-                                
-                                
-                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="margin-bottom: 25px">
-                                    <label for="">Thành viên 3</label>
-                                    <input type="memberName3" class="form-control" id="memberName3" placeholder="Nhập tên">
-                                    <input type="memberCMND3" class="form-control" id="memberCMND3" placeholder="Nhập CMND">
-                                    <input type="memberPhoneNumber3" class="form-control" id="memberPhoneNumber3" placeholder="Nhập số điện thoại">
-                                </div>
-                                
-                                
+
+                                <?php
+
+                                        }
+                                    }
+                                ?>
+
+
                             </div>
+
+                            <input type="hidden" name ="motelId" value="<?php echo $motelId ?>" >
+                            <input type="hidden" name ="count" value="<?php echo $count ?>" >
+                            <input type="hidden" name ="name" value="<?php echo $row["name"] ?>" >
                             
                         </div>
                         
-                        <button type="submit" class="btn btn-primary" style="margin-left: 30px">Cập nhật</button>
+                        <label for="" style="margin-left: 20px">Tổng tiền: <?= $row['total'] ?></label>
+                        
+                        
+                        <button type="submit" name="action" value="update" class="btn btn-primary" style="margin-left: 15px">Cập nhật</button>
+                        <button type="submit" name="action" value="delete" class="btn btn-danger" style="margin-left: 15px">Delete All</button>
 
                         <?php
                                     }
