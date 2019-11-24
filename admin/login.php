@@ -1,7 +1,5 @@
 <?php
-    session_start();
-    
-    
+	session_start();
 ?>
 
 <!DOCTYPE html>
@@ -51,7 +49,7 @@
 
                         <?php
 						if (isset($_POST["username"]) && isset($_POST["password"])) {
-							require_once("../user/conn.php");
+							require_once("../conn.php");
 							$username = $_POST["username"];
 							$password = $_POST["password"];
 							$sql = "SELECT * FROM admin WHERE username = '$username' AND password = '$password'";

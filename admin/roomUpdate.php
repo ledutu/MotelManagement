@@ -1,3 +1,12 @@
+<?php
+    session_start();
+
+    if(!isset($_SESSION["username"]))
+    {
+        header("Location: login.php");
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,7 +59,7 @@
                             {
                                 $motelId = $_GET["id"];
                                 $sql = "SELECT * FROM motels WHERE motelId = '$motelId'" ;
-                                $users = "SELECT * FROM motels, users WHERE motelId = '$motelId'
+                                $users = "SELECT * FROM motels, users WHERE motels.motelId = '$motelId'
 
                                 AND (motels.memberId1 = users.userId 
                                 OR motels.memberId2 = users.userId

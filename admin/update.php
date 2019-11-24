@@ -122,7 +122,36 @@
 
             $conn->query($sql1);
 
-            header("Location: roomUpdate.php");
+            header("Location: index.php");
+        }
+    }
+    
+    else if($_POST['action'] == 'edit')
+    {
+        $userId=$_POST['userId'];
+        $fullName = $_POST['fullName'];
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $phone = $_POST['phone'];
+        $CMND = $_POST['CMND'];
+        $dayOfBirth = $_POST['dayOfBirth'];
+        
+        $sql = "UPDATE users SET
+        fullName = '$fullName',
+        username = '$username',
+        password = '$password',
+        numberPhone = '$phone',
+        CMND = '$CMND',
+        dayOfBirth = '$dayOfBirth'
+        WHERE userId = '$userId'";
+
+        if($conn->query($sql) === false)
+        {
+            die("Error: " . $sql . $conn->error);
+            echo "Không chỉnh sửa được";
+        }
+        else{
+            header("Location: index.php?userInfo");
         }
     }
     

@@ -1,3 +1,16 @@
+<?php
+    session_start();
+
+    $time = $_SERVER['REQUEST_TIME'];
+
+    $timeout = 1800;
+
+    if(!isset($_SESSION["username"]))
+    {
+        header("Location: login.php");
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +23,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <link rel="stylesheet" href="index.css?version=51">
+    <link rel="stylesheet" href="index.css">
 
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -28,7 +41,7 @@
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="#">PHÒNG TRỌ <b style="color: red">LÊ ĐỨC TÙNG</b></a>
+                        <a class="navbar-brand" href="index.php">PHÒNG TRỌ <b style="color: red">LÊ ĐỨC TÙNG</b></a>
                     </div>
 
                     <ul class="nav navbar-nav">
@@ -44,7 +57,7 @@
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right" style="margin-right: 50px">
-                        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                        <li><a href="logout.php"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
                     </ul>
 
                 </div>
@@ -84,17 +97,15 @@
                             
                             <table class="table table-hover">
                                 
-                                <!-- <form action="" method="POST" role="form">
-                                    <div class="form-group">
-                                        <label for="">label</label>
-                                        <input type="text" class="form-control" id="" placeholder="Input field">
+                                <form action="index.php?userInfo" method="POST" role="form" enctype="multipart/form-data">
+                                    <div class="form-group" style="float: left; margin-right: 10px">
+                                        <input type="text" class="form-control" id="userSearching" name="userSearching" placeholder="Tìm kiếm">
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </form> -->
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                </form>
                                 
                                 <thead>
                                     <tr>
-                                        <th>Hình ảnh</th>
                                         <th>Tên đầy đủ</th>
                                         <th>username</th>
                                         <th>password</th>
@@ -102,7 +113,7 @@
                                         <th>CMND</th>
                                         <th>Ngày sinh</th>
                                         <th>Phòng</th>
-                                        <th>Lựa chọn</th>
+                                        <th style="padding-left: 20px">Lựa chọn</th>
                                     </tr>
                                 </thead>
 
@@ -111,18 +122,98 @@
                                         $userSql = "SELECT * FROM users, motels
                                         WHERE users.motelId = motels.motelId
                                         ORDER BY users.motelId, users.userId ASC";
+
+                                        if(isset($_POST['userSearching']))
+                                        {
+                                            $fullName = $_POST['userSearching'];
+                                            $userSql = "SELECT * FROM users, motels
+                                            WHERE users.fullName LIKE '%$fullName%'
+                                            AND motels.motelId = users.motelId 
+                                            ORDER BY users.motelId, users.userId ASC";
+                                        }
+
+                                        if(isset($_GET['id']) && isset($_GET['edit']))
+                                        {
+                                            $id = $_GET['id'];
+                                            $userSql = "SELECT * FROM users, motels
+                                            WHERE motels.motelId = users.motelId AND userId = '$id'";
+                                        }
+
                                         $results = $conn->query($userSql);
 
                                         if($results->num_rows > 0)
                                         {
                                             while($user = $results->fetch_assoc())
                                             {
-
+                                                if(isset($_GET['id']) && isset($_GET['edit']))
+                                                {
+                                                    $userId = $_GET['id'];
+                                                    $editSql = ""
                                     ?>
+                                    
+                                        <form action="update.php" method="POST" role="form" enctype="multipart/form-data">
+
+                                            <tr id="edit">
+                                                <div class="form-group">
+                                                    
+                                            
+                                                        <td>
+                                                            <input type="text" name="fullName" id="fullName" value="<?= $user["fullName"] ?>" required>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" name="username" id="username" value="<?= $user["username"] ?>" required>
+                                                        </td>
+                                                        <td>
+                                                            <input type="pwd" name="password" id="password" value="<?= $user["password"] ?>" required>
+                                                        </td>
+                                                        <td>
+                                                            <input type="pwd" name="phone" id="phone" value="<?= $user["numberPhone"] ?>" required>
+                                                        </td>   
+                                                        <td>
+                                                            <input type="text" name="CMND" id="CMND" value="<?= $user["CMND"] ?>" required>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" name="dayOfBirth" id="dayOfBirth" value="<?= $user["dayOfBirth"] ?>" required>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" name="room" id="room" value="<?= $user["name"] ?>" required>
+                                                        </td>
+                                                        
+                                                        <input type="hidden" name ="userId" value="<?php echo $_GET['id'] ?>" >
+                                                </div>
+                                            
+                                                        <th>
+                                                        <button type="submit" name="action" value="edit" class="btn btn-primary" style="margin-left: 15px">Update</button>
+                                        
+                                            </tr>
+
+                                        </form>
+                                        
+
+                                    <?php
+
+                                                }
+                                                else if(isset($_GET['id']) && isset($_GET['delete'])){
+                                                    $userId = $_GET['id'];
+                                                    $deleteSql = "DELETE FROM users WHERE userId = '$userId'";
+                                                    if($conn->query($deleteSql) === FALSE){
+                                                        echo "Không xóa được";
+                                                    }
+                                                    else{
+                                                        echo "Đã xóa thành công!";
+                                                        
+                                    ?>
+                                                        <a href="index.php?userInfo"><button class="btn btn-priary">Quay lại</button></a>
+                                    <?php
+                                                        break;
+                                                    }
+                                                    
+                                                }
+
+                                                else{
+                                    ?>
+                                    
                                     <tr>
-                                        <td>
-                                            <img src="" alt="">
-                                        </td>
                                         <td><?= $user["fullName"] ?></td>
                                         <td><?= $user["username"] ?></td>
                                         <td><?= $user["password"] ?></td>
@@ -131,15 +222,15 @@
                                         <td><?= $user["dayOfBirth"] ?></td>
                                         <td><?= $user['name'] ?></td>
                                         <th>
-                                            <a href=""><button class="btn btn-primary">Edit</button></a>
-                                            <a href=""><button class="btn btn-danger">Delete</button></a>
+                                            <a href="index.php?userInfo&id=<?= $user['userId'] ?>&edit"><button class="btn btn-primary">Edit</button></a>
+                                            <a href="index.php?userInfo&id=<?= $user['userId'] ?>&delete" ><button class="btn btn-danger">Delete</button></a>
                                         </th>
                                         
                                     </tr>
                                     
 
                                     <?php
-                                                                                    
+                                                }
                                             }
                                         }
                                     ?>
