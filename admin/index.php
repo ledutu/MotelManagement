@@ -46,7 +46,7 @@
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="index.php">PHÒNG TRỌ <b style="color: red">LÊ ĐỨC TÙNG</b></a>
+                        <a class="navbar-brand" href="index.php">PHÒNG TRỌ <b style="color: red">LÊ THỊ KỈNH</b></a>
                     </div>
 
                     <ul class="nav navbar-nav">
