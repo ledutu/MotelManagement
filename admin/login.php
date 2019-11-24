@@ -28,7 +28,7 @@
 
                     <div class="logo mb-3">
                         <div class="col-md-12 text-center">
-                            <h1>Login</h1>
+                            <h1>Admin</h1>
                         </div>
                     </div>
 

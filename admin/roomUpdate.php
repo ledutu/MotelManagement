@@ -5,6 +5,8 @@
     {
         header("Location: login.php");
     }
+
+    
 ?>
 
 <!DOCTYPE html>
@@ -146,7 +148,7 @@
                                 ?>
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="margin-bottom: 25px">
 
-                                    <label for="">Thành viên <?= ++$i ?></label>
+                                    <label for="">Thành viên</label>
                                     <input type="text" class="form-control" id="memberName<?= ++$i ?>" name="memberName<?= ++$i ?>" value = "<?= $user["fullName"] ?>" placeholder="Nhập tên" required>
                                     <input type="text" class="form-control" id="memberCMND<?= ++$i ?>" name="memberCMND<?= ++$i ?>" value = "<?= $user["CMND"] ?>" placeholder="Nhập CMND" required>
                                     <input type="text" class="form-control" id="memberPhoneNumber<?= ++$i ?>" name="memberPhoneNumber<?= ++$i ?>" value="<?= $user["numberPhone"] ?>" placeholder="Nhập số điện thoại" required>
@@ -164,7 +166,7 @@
 
                                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="margin-bottom: 25px">
 
-                                    <label for="">Thành viên <?= $i ?></label>
+                                    <label for="">Thành viên</label>
                                     <input type="text" class="form-control" id="memberName<?= $i ?>" name="memberName<?= $i ?>" value = "" placeholder="Nhập tên" required>
                                     <input type="text" class="form-control" id="memberCMND<?= $i ?>" name="memberCMND<?= $i ?>" value = "" placeholder="Nhập CMND" required>
                                     <input type="text" class="form-control" id="memberPhoneNumber<?= $i ?>" name="memberPhoneNumber<?= $i ?>" value="" placeholder="Nhập số điện thoại" required>
@@ -196,6 +198,8 @@
                                     }
                                 }
                             }
+
+                    
                         ?>
 
                     </div>

@@ -1,14 +1,19 @@
 <?php
     session_start();
 
-    $time = $_SERVER['REQUEST_TIME'];
-
-    $timeout = 1800;
-
     if(!isset($_SESSION["username"]))
     {
         header("Location: login.php");
+    };
+
+    require_once("../conn.php");
+
+    if(date('d') == 1)
+    {
+        $resetSql = "UPDATE motels SET cast = 0";
+        $conn->query($resetSql);
     }
+   
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +28,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" type="text/css" href="index.css">
 
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -80,6 +85,9 @@
                             <a href="index.php?userInfo" style="display: block" ><i class="fa fa-users fa-lg"></i>Thông tin thành viên</a> 
                             <hr>
                             <a href="#" style="display: block" data-toggle="modal" data-target="#roomAdding"><i class="fa fa-plus fa-lg"></i>Thêm phòng</a> 
+                            <a href="#" style="display: block" data-toggle="modal" data-target="#annouce"><i class="fa fa-bullhorn fa-lg"></i>Thông báo</a> 
+                            <a href="index.php?listAnnouce" style="display: block"><i class="fa fa-list fa-lg"></i>Danh sách thông báo</a> 
+
                         
                         </div>  <!-- End Left menu -->  
                     </div>
@@ -87,9 +95,57 @@
                     <!-- Content -->
                     <div class="col-xs-10 col-sm-10 col-md-10">
                         <?php
-                            require_once("../conn.php");
 
-                            if(isset($_GET["userInfo"]))
+                            if(isset($_GET['listAnnouce']))
+                            {
+                        ?>
+                            <h3>Danh sách thông báo</h3>
+                            
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Title</th>
+                                        <th>Date</th>
+                                        <th style="padding-left: 20px">Option</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+
+                                        $annouceSql = "SELECT * FROM information";
+
+                                        $annouceResult = $conn->query($annouceSql);
+
+                                        if($annouceResult->num_rows > 0)
+                                        {
+                                            $i = 0;
+                                            while($annouce = $annouceResult->fetch_assoc())
+                                            {
+                                    ?>
+
+                                   
+                                    <tr>
+                                        <td><?= ++$i ?></td>
+                                        <td><?= $annouce['title'] ?></td>
+                                        <td style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box;"><?= $annouce['date'] ?></td>
+                                        <td>
+                                            <a href="deleteAnnouce.php?id=<?= $annouce['id'] ?>"><button class="btn btn-danger">Delete</button></a>
+                                        </td>
+                                    </tr>
+
+                                    <?php
+                                            }
+                                        }
+
+                                    ?>
+                                </tbody>
+                            </table>
+                            
+                        <?php
+
+                            }
+                            else if(isset($_GET["userInfo"]))
                             {
                         ?>
                             <h3>Thông tin thành viên</h3>
@@ -322,6 +378,7 @@
 
         <?php 
             require_once("roomAdd.php");
+            
         ?>
 
         

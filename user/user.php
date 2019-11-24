@@ -1,10 +1,21 @@
+<?php
+    session_start();
+
+    require_once('../conn.php');
+
+    if(!isset($_SESSION['username']))
+    {
+        header('Location: login.php');
+    };
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <title>User</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="user.css" type="text/css">
+  <link rel="stylesheet" href="user.css?version=51" type="text/css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
@@ -16,68 +27,53 @@
 
         <div class="header">
             
-            <nav class="navbar navbar-default" role="navigation">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">Title</a>
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="index.php" style="margin-left: 10px">PHÒNG TRỌ <b style="color: #e06767">LÊ THỊ KỈNH</b></a>
+                    </div>
+
+                    <ul class="nav navbar-nav navbar-right" style="margin-right: 50px">
+                        <li class="navbar-brand" style="font-weight: 700"><?= $_SESSION['fullName'] ?></li>
+                        <li><a href="logout.php"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                    </ul>
+
                 </div>
-            
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse navbar-ex1-collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Link</a></li>
-                        <li><a href="#">Link</a></li>
-                    </ul>
-                    <form class="navbar-form navbar-left" role="search">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Search">
-                        </div>
-                        <button type="submit" class="btn btn-default">Submit</button>
-                    </form>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">Link</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
-                                <li><a href="#">Separated link</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div><!-- /.navbar-collapse -->
             </nav>
-            
-        </div>
+                    
+        </div> <!-- End header -->
 
         <div class="thanhvien">
             <div class="container-fluid">
                 <div class="row">
                     <div class="left">
                         <div class="col-lg-2" id="viewUser">
-                            <p id="nameRoom">Phòng A01</p>
-                                <div class="ngayThue"> Ngày thuê: <input type="text" name="date" value="20/11/2019" readonly></div>
+
                             <p id="listUserTitle">Thành viên: </p>
 
                             <div class="formListUser">
                                 
                                 <div class="listUser">
                                 <?php
-                                    for($i = 0; $i<4; $i++)
-                                {
+                                    $motelId = $_SESSION['motelId'];
+                                    $userSql = "SELECT * FROM users WHERE motelId = '$motelId'";
+
+                                    $userResults = $conn->query($userSql);
+
+                                    if($userResults->num_rows > 0)
+                                    {
+                                        while($user = $userResults->fetch_assoc())
+                                        {
                                 ?>
-                                    <a href="" ><i class="fa fa-user"></i> Nguyễn Văn A</a>
+                                
+                                    <a href="" ><i class="fa fa-user"></i> <?= $user['fullName'] ?></a>
                                     <hr>
+
                                 <?php
-                                }
+                                        }
+                                    }
                                 ?>
+
                                 </div>
                                 
                             </div>
@@ -86,54 +82,97 @@
                     </div>
                     <div class="right">      
                         <div class="col-lg-10">
-                            <p id="tien">Tiền trọ</p>
-                            <form action="">
-                                Chọn tháng: <input type="month" name="bdaymonth">
-                                <input type="submit" value="Chọn">
-                            </form>
+                            
                             <div class="row">
                                 
                                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-8" >
                                     <p class="titleDichVu">Dịch vụ sử dụng</p>
                                     <div class="row" id="tienDichVu">
-                                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-6" id="leftTienDV">
+                                        <div class="col-xs-12" id="leftTienDV">
 
-                                            <p class="tien">Tiền nhà: </p>
-                                            <input type="tien" name="date" value="5000000" readonly>
+                                        <?php
+                                            $motelId = $_SESSION['motelId'];
+                                            $roomSql = "SELECT * FROM motels WHERE motelId = '$motelId'";
+
+                                            $roomResult = $conn->query($roomSql);
+                                            if($roomResult->num_rows > 0)
+                                            {
+                                                while($room = $roomResult->fetch_assoc())
+                                                {
+                                        ?>
+
                                         
-                                            <p class="tien">Tiền điện: </p>
-                                            <input type="tien" name="date" value="200000" readonly>
+                                            <p id="nameRoom">Phòng <?= $room['name'] ?></p>
 
-                                            <p class="tien">Tiền nước: </p>
-                                            <input type="tien" name="date" value="40000" readonly>
+                                            <div class="row info">
+                                                <div class="col-xs-6">
+                                                    <p>Tiền nhà: </p>
+                                                    <p>Tiền điện, nước: </p>
+                                                    <p>Tiền dịch vụ: </p>
+                                                </div>
+
+                                                <div class="col-xs-6">
+                                                    <p><?= $room['roomCost'] ?></p>
+                                            
+                                                    <p><?= $room['waterCost'] ?></p>
+
+                                                    <p><?= $room['serviceCost'] ?></p>
+
+                                                </div>
+                                            </div>
+
+                                            
+                                            
+
+                                            <hr>
+
+                                            <p style="font-weight: 700; font-size: 20px">Tổng tiền: <?= $room['total'] ?></p>
+
+                                        <?php
+                                                }
+                                            }
+                                            
+                                        ?>
 
                                         </div>
-                                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-6" id="rightTienDV">
-                                            <p class="tien">Tiền giữ xe: </p>
-                                            <input type="tien" name="date" value="5000000" readonly>
                                         
-                                            <p class="tien">Tiền mạng: </p>
-                                            <input type="tien" name="date" value="200000" readonly>
-                                            <p class="tien">Tiền rác: </p>
-                                            <input type="tien" name="date" value="200000" readonly><hr>
-                                            <p class="tongTien">Tổng tiền: 10000000</p>
-                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                     <p class="titleThongBao">Thông Báo</p>
                                     <div class="row" id="thongBao">
-                                        <p class="textThongBao">Vui lòng để xe đúng qui định.</p>
-                                        <p class="textThongBao">Vui lòng thanh toán tiền phòng đúng thời hạn.</p> 
+                                        <?php
+                                            $annouceSql = "SELECT * FROM information";
+
+                                            $annouceResult = $conn->query($annouceSql);
+
+                                            if($annouceResult->num_rows > 0)
+                                            {
+                                                while($annouce = $annouceResult->fetch_assoc())
+                                                {
+                                        ?>
+
+                                        <p class="textThongBao">- <?= $annouce['title'] ?> (<?= $annouce['date'] ?>).</p>
+
+                                        <?php
+                                                }
+                                            }
+                                        ?>
+                                        
                                     </div>
                                 </div> 
                             </div>
                         </div>  
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
+                </div>  <!-- End row -->
+
+            </div>  <!-- End container -->
+            
+        </div>  <!-- End thanh vien -->
+
+
+    </div>  <!-- End app -->
 
 </body>
 </html> 

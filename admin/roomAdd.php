@@ -55,6 +55,37 @@
 
     </div>
 
+    <div id="annouce" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Thông báo</h4>
+                </div>
+
+                <div class="modal-body">
+                    
+                    <form action="annouce.php" method="POST" role="form">
+                    
+                        <div class="form-group">
+                            <label for="">Nội dung</label>
+                            <textarea style="height: 300px" type="text" class="form-control" id="annoucement" name="annoucement" placeholder="Nhập thông báo"></textarea>
+                        </div>
+                    
+                        <button type="submit" class="btn btn-primary">Gửi</button>
+                    </form>
+                    
+                </div>
+
+                
+            </div>
+
+        </div>
+    </div>
+
 </div>
 </body>
 </html>

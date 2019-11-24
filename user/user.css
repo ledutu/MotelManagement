@@ -2,8 +2,8 @@
 }
 
 p.textThongBao {
-    color: red;
-    font-size: 20px;
+    color: #e06767;
+    font-size: 18px;
     padding: 10px;
 }
 
@@ -11,8 +11,6 @@ p.textThongBao {
     padding-bottom: 20px;
 }
 
-input[type="text"] {
-}
 
 form {padding-bottom: 20px;}
 
@@ -20,7 +18,7 @@ div#rightTienDV {
     padding: 40px;
 }
 
-div#leftTienDV {padding: 40px;}
+div#leftTienDV {padding: 20px;}
 
 div#thongBao {
     margin-left: 0px;
@@ -29,10 +27,8 @@ div#thongBao {
 
 
 .thanhvien {
-    margin: 50px;
+    margin: 25px;
 }
-
-div#viewUser {}
 
 p.tongTien {
     text-align: center;
@@ -48,14 +44,7 @@ p.titleThongBao {
     font-weight: 600;
 }
 
-p.tien {
-    font-size: 20px;
-}
 
-input[type="tien"] {
-    margin-left: 20px;
-    font-size: 15px;
-}
 
 div#tienDichVu {
     border: 1px solid;
@@ -63,27 +52,21 @@ div#tienDichVu {
     height: 500px;
 }
 
-div#tienDichVu {
-}
 div#thongBao {
     border: 1px solid;
     border-radius: 5px;
+    overflow-y: scroll;
 }
 
-
-p.tien {
-    margin: 10px !important;
-}
-
-p#tien {
-    font-size: 30px;
-    text-align: center;
-    font-weight: 600;
+.info p{
+    font-size: 18px;
 }
 
 p#nameRoom {
-    font-size: 30px;
+    font-size: 25px;
     font-weight: bold;
+    margin-bottom: 50px
+    
 }
 
 .listUser {
@@ -98,12 +81,14 @@ p#listUserTitle {
 .formListUser {
     border: 1px solid;
     border-radius: 5px;
-    padding: 20px;
+    padding: 15px;
+    overflow: hidden;
 }
 
 a{
     color: #333333 !important;
     font-weight: 500;
+    font-size: 18px
 }
 
 a:hover{

@@ -72,17 +72,17 @@
             memberId4='$userId4'
             WHERE motelId='$motelId'";
     
-            $addMember1 = "INSERT INTO users(userId, fullName, numberPhone, CMND) 
-            VALUES ('$userId1', '$memberName1', '$memberPhoneNumber1', '$memberCMND1')";
+            $addMember1 = "INSERT INTO users(userId, fullName, numberPhone, CMND, motelId) 
+            VALUES ('$userId1', '$memberName1', '$memberPhoneNumber1', '$memberCMND1', '$motelId')";
     
-            $addMember2 = "INSERT INTO users(userId, fullName, numberPhone, CMND) 
-            VALUES ('$userId2', '$memberName2', '$memberPhoneNumber2', '$memberCMND2')";
+            $addMember2 = "INSERT INTO users(userId, fullName, numberPhone, CMND, motelId) 
+            VALUES ('$userId2', '$memberName2', '$memberPhoneNumber2', '$memberCMND2', '$motelId')";
     
-            $addMember3 = "INSERT INTO users(userId, fullName, numberPhone, CMND) 
-            VALUES ('$userId3', '$memberName3', '$memberPhoneNumber3', '$memberCMND3')";
+            $addMember3 = "INSERT INTO users(userId, fullName, numberPhone, CMND, motelId) 
+            VALUES ('$userId3', '$memberName3', '$memberPhoneNumber3', '$memberCMND3', '$motelId')";
     
-            $addMember4 = "INSERT INTO users(userId, fullName, numberPhone, CMND) 
-            VALUES ('$userId4', '$memberName4', '$memberPhoneNumber4', '$memberCMND4')";
+            $addMember4 = "INSERT INTO users(userId, fullName, numberPhone, CMND, motelId) 
+            VALUES ('$userId4', '$memberName4', '$memberPhoneNumber4', '$memberCMND4', '$motelId')";
     
             if(
                 ($conn->query($addMember1) === false) ||

@@ -28,7 +28,7 @@
 
                     <div class="logo mb-3">
                         <div class="col-md-12 text-center">
-                            <h1>Login</h1>
+                            <h1>User</h1>
                         </div>
                     </div>
 
@@ -49,15 +49,23 @@
 
                         <?php
 						if (isset($_POST["username"]) && isset($_POST["password"])) {
-							require_once("../user/conn.php");
+							require_once("../conn.php");
 							$username = $_POST["username"];
 							$password = $_POST["password"];
-							$sql = "SELECT * FROM admin WHERE username = '$username' AND password = '$password'";
+							$sql = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
 							
 							$result = $conn->query($sql);
 							if ($result->num_rows > 0) {
-								$_SESSION["username"] = $username;
-								header("Location: index.php");
+                                $_SESSION["username"] = $username;
+                                while($user = $result->fetch_assoc())
+                                {
+                                    $_SESSION["fullName"] = $user['fullName'];
+                                    $_SESSION["motelId"] = $user['motelId'];
+                                }
+                                
+                                
+
+								header("Location: user.php");
 							} else {
 								echo "Login Failed";
 							}
