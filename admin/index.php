@@ -51,14 +51,14 @@
 
                     <ul class="nav navbar-nav">
                         
-                        <form class="navbar-form navbar-left" role="search">
+                        <form action="" class="navbar-form navbar-left" role="search" method="POST" enctype="multipart/form-data">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Search">
+                                <input type="text" class="form-control" name="searchName" placeholder="Search">
                             </div>
 
                             <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
                         </form>
-                        
+
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right" style="margin-right: 50px">
@@ -309,12 +309,18 @@
                                 <div class="row">
                                     
                                 <?php
-                                    $sql = "SELECT * FROM motels";
+                                    $sql = "SELECT * FROM motels ORDER BY name ASC";
 
                                     if(isset($_GET['status']))
                                     {
                                         $status = $_GET['status'];
-                                        $sql = $sql . " WHERE status = $status";
+                                        $sql = "SELECT * FROM motels WHERE status = $status ORDER BY name ASC";
+                                    }
+
+                                    if(isset($_POST['searchName']))
+                                    {
+                                        $searchName = $_POST['searchName'];
+                                        $sql = "SELECT * FROM motels WHERE name LIKE '%$searchName%' ORDER BY name ASC";
                                     }
 
                                     $result = $conn->query($sql);

@@ -66,7 +66,7 @@
                                         {
                                 ?>
                                 
-                                    <a href="" ><i class="fa fa-user"></i> <?= $user['fullName'] ?></a>
+                                    <p style="font-size: 18px"><i class="fa fa-user"></i> <?= $user['fullName'] ?></p>
                                     <hr>
 
                                 <?php
