@@ -112,11 +112,11 @@
                                                 </div>
 
                                                 <div class="col-xs-6">
-                                                    <p><?= $room['roomCost'] ?></p>
+                                                    <p><?= number_format($room['roomCost']) ?></p>
                                             
-                                                    <p><?= $room['waterCost'] ?></p>
+                                                    <p><?= number_format($room['waterCost']) ?></p>
 
-                                                    <p><?= $room['serviceCost'] ?></p>
+                                                    <p><?= number_format($room['serviceCost']) ?></p>
 
                                                 </div>
                                             </div>
@@ -126,7 +126,7 @@
 
                                             <hr>
 
-                                            <p style="font-weight: 700; font-size: 20px">Tổng tiền: <?php echo $room['total'] ?> 
+                                            <p style="font-weight: 700; font-size: 20px">Tổng tiền: <?php echo number_format($room['total']) ?> 
                                                 <?php
                                                     if($room['cast']){
                                                         echo '<span style="color:green">(Đã đóng tiền)</span>';
