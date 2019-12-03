@@ -15,7 +15,7 @@
 <title>User</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="user.css?version=51" type="text/css">
+  <link rel="stylesheet" href="user.css" type="text/css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
@@ -108,7 +108,7 @@
                                                 <div class="col-xs-6">
                                                     <p>Tiền nhà: </p>
                                                     <p>Tiền điện, nước: </p>
-                                                    <p>Tiền dịch vụ: </p>
+                                                    <p>Tiền dịch vụ (Wifi, giử xe, rác): </p>
                                                 </div>
 
                                                 <div class="col-xs-6">
@@ -126,7 +126,16 @@
 
                                             <hr>
 
-                                            <p style="font-weight: 700; font-size: 20px">Tổng tiền: <?= $room['total'] ?></p>
+                                            <p style="font-weight: 700; font-size: 20px">Tổng tiền: <?php echo $room['total'] ?> 
+                                                <?php
+                                                    if($room['cast']){
+                                                        echo '<span style="color:green">(Đã đóng tiền)</span>';
+                                                    } 
+                                                    else{
+                                                        echo '<span style="color:red">(Còn nợ)</span>';
+                                                    }
+                                                ?> 
+                                            </p>
 
                                         <?php
                                                 }
